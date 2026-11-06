@@ -22,6 +22,7 @@ import '../state/session_attention_state.dart';
 import '../ui/chat/run_info.dart';
 import 'pet_mood.dart';
 import 'pet_overlay_actions.dart';
+import 'custom_pets.dart';
 import 'pet_pack.dart';
 import 'pet_prefs.dart';
 import 'pet_state.dart';
@@ -29,12 +30,10 @@ import 'pet_state.dart';
 /// The pet's clock (tests drive it by hand).
 final petClockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
 
-/// Where packs load from (tests swap in a file bundle).
-final petAssetBundleProvider = Provider<AssetBundle>((ref) => rootBundle);
-
-/// One pack, loaded once per id.
+/// One pack, loaded once per id: from the APK, or from `filesDir/pets/<id>/`
+/// when it was imported (`custom_pets.dart`).
 final petPackProvider = FutureProvider.family<PetPack, String>(
-  (ref, id) => PetPack.load(id, ref.watch(petAssetBundleProvider)),
+  (ref, id) => PetPack.load(id, ref.watch(petBundleForProvider)(id)),
 );
 
 /// The chosen pack; null for none (or while it loads, or when it is broken).

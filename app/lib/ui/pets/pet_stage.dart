@@ -22,6 +22,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../pets/pet_mood.dart';
 import '../../pets/pet_overlay_bridge.dart';
+import '../../pets/custom_pets.dart';
 import '../../pets/pet_pack.dart';
 import '../../pets/pet_prefs.dart';
 import '../../pets/pet_sheets.dart';
@@ -935,6 +936,7 @@ class PetLayerState extends ConsumerState<PetLayer> with TickerProviderStateMixi
                       scale: s,
                       flip: flip,
                       paused: pauseSprite,
+                      bundle: ref.watch(petBundleForProvider)(pack.id),
                       onShown: () {
                         if (_ready) return;
                         // Shown during a frame: ready right after it.
